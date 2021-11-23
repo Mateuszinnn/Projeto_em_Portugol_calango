@@ -2,6 +2,9 @@
 Sistema de Acompanhamento de Disciplina
 
 Síntese
+
   Objetivo:  Criar um sistema de gerenciamento de uma disciplina.
+  
   Entrada : Dados dos alunos.
+  
   Saída   : Resultado da pesquisa.
