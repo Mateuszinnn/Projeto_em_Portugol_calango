@@ -1,0 +1,367 @@
+algoritmo Sistema_de_Acompanhamento_de_Disciplina;
+// Síntese
+//  Objetivo:  Criar um sistema de gerenciamento de uma disciplina.
+//  Entrada : Dados dos alunos.
+//  Saída   : Resultado da pesquisa.
+
+
+principal
+	// Declarações
+	inteiro contador_alunos;
+	real vetor_notas[200], vetor_frequencia[200], vetor_idade[200];
+	texto vetor_nome[200], vetor_matricula[200];
+	// Instruções
+
+	contador_alunos=-1; //coloquei como -1 pra quando chegar no caso 1 somar 1 e ficar como 0
+	menu(contador_alunos, vetor_notas, vetor_nome, vetor_matricula,vetor_frequencia, vetor_idade);
+
+
+
+
+fimPrincipal
+
+procedimento menu(inteiro contador_alunos, real vetor_notas[], texto vetor_nome[], texto vetor_matricula[], real vetor_frequencia[], real vetor_idade[])
+	// Declarações
+	inteiro opcao;
+	// Instruções
+	escreval(" ");
+	escreval("-------------------------------------------------------------------------");
+	escreval("-------------/ Menu Sistema de Acompanhamento de Disciplina /------------");
+	escreval("-------------------------------------------------------------------------");
+	escreval(" ");
+	escreval("Opção 1 - Cadastrar aluno");
+	escreval("Opção 2 - Listar alunos");
+	escreval("Opção 3 - Listar alunos aprovados");
+	escreval("Opção 4 - Listar alunos reprovados");
+	escreval("Opção 5 - Pesquisar por aluno");
+	escreval("Opção 6 - Gerar relatório dos alunos cadastrados no sistema");
+	escreval("Opção 7 - Finalizar Programa");
+	escreval(" ");
+	escreva("Digite a opção desejada: ");
+	leia(opcao);
+
+
+	escolha(opcao)
+	caso 1
+		limpaTela();
+		contador_alunos=contador_alunos+1;
+		Cadastrar_aluno(contador_alunos, vetor_notas, vetor_nome, vetor_matricula, vetor_frequencia, vetor_idade);
+		interrompa;
+	caso 2
+		limpaTela();
+		Listar_alunos(contador_alunos, vetor_notas, vetor_nome, vetor_matricula,vetor_frequencia,vetor_idade);
+		interrompa;
+	caso 3
+		limpaTela();
+		alunos_aprovados(contador_alunos, vetor_notas, vetor_nome, vetor_matricula,vetor_frequencia,vetor_idade);
+		interrompa;
+	caso 4
+		limpaTela();
+		alunos_reprovados(contador_alunos, vetor_notas, vetor_nome, vetor_matricula,vetor_frequencia,vetor_idade);
+		interrompa;
+	caso 5
+		limpaTela();
+		Pesquisa_aluno(contador_alunos, vetor_notas, vetor_nome, vetor_matricula,vetor_frequencia,vetor_idade);
+		interrompa;
+	caso 6
+		limpaTela();
+		relatorio_alunos_cadastrados(contador_alunos, vetor_notas, vetor_nome, vetor_matricula,vetor_frequencia,vetor_idade);
+		interrompa;
+	caso 7
+		limpaTela();
+		encerrar_programa();
+		interrompa;
+	outroCaso
+		se((opcao<1)ou(opcao>7))entao
+			escreval("Escolha uma opção de 1 até 7");
+			menu(contador_alunos, vetor_notas, vetor_nome, vetor_matricula, vetor_frequencia,vetor_idade);
+		fimSe
+	fimEscolha
+
+fimProcedimento
+
+//Opção 1
+procedimento Cadastrar_aluno(inteiro contador_alunos, real vetor_notas[], texto vetor_nome[], texto vetor_matricula[], real vetor_frequencia[],real vetor_idade[])
+
+	// Instruções
+	escreval(" ");
+	escreval("-------------------------------------------------------------------------");
+	escreval(" ");
+	//nome
+	escreva("Nome do Aluno: ");
+	leia(vetor_nome[contador_alunos]);
+	//matricula
+	escreva("Matrícula do Aluno: ");
+	leia(vetor_matricula[contador_alunos]);
+	enquanto((tamanhoTexto(vetor_matricula[contador_alunos])<10)ou(tamanhoTexto(vetor_matricula[contador_alunos])>10))faca
+		escreval(" ");
+		escreval("ERRO, insira uma matrícula com 10 caracteres");
+		escreva("Matrícula do Aluno: ");
+		leia(vetor_matricula[contador_alunos]);
+		escreval(" ");
+	fimEnquanto
+	//idade
+	escreva("Idade do Aluno: ");
+	leia(vetor_idade[contador_alunos]);
+	enquanto(vetor_idade[contador_alunos]<0)faca
+		escreval(" ");
+		escreval("ERRO, insira uma idade válida.");
+		escreva("Idade do Aluno: ");
+		leia(vetor_idade[contador_alunos]);
+		escreval(" ");
+	fimEnquanto
+	//nota
+	escreva("Nota do Aluno: ");
+	leia(vetor_notas[contador_alunos]);
+	enquanto((vetor_notas[contador_alunos]<0) ou (vetor_notas[contador_alunos]>10))faca
+		escreval(" ");
+		escreval("ERRO, insira uma nota válida, entre 0 e 10");
+		escreva("Nota do Aluno: ");
+		leia(vetor_notas[contador_alunos]);
+		escreval(" ");
+	fimEnquanto
+	//frequência
+	escreva("Frequência do Aluno em porcentagem: ");
+	leia(vetor_frequencia[contador_alunos]);
+	escreval(" ");
+	enquanto((vetor_frequencia[contador_alunos]<0)ou(vetor_frequencia[contador_alunos]>100))faca
+		escreval(" ");
+		escreval("ERRO, insira uma frequencia entre 0% ou 100%.");
+		escreva("Frequência do Aluno em porcentagem: ");
+		leia(vetor_frequencia[contador_alunos]);
+		escreval(" ");
+	fimEnquanto
+	limpaTela();
+	menu(contador_alunos, vetor_notas, vetor_nome, vetor_matricula, vetor_frequencia,vetor_idade);
+
+fimProcedimento
+
+//Opção 2
+procedimento Listar_alunos(inteiro contador_alunos, real vetor_notas[], texto vetor_nome[], texto vetor_matricula[], real vetor_frequencia[],real vetor_idade[])
+	// Declarações
+	inteiro alunos_cadastrados;
+	// Instruções
+	escreval(" ");
+	escreval("-------------------------------------------------------------------------");
+	escreval(" ");
+	//lista de alunos
+	para(alunos_cadastrados de 0 ate contador_alunos passo 1)faca
+		escreval("Nome do aluno: "+vetor_nome[alunos_cadastrados] +" - "+"Matricula: "+ vetor_matricula[alunos_cadastrados] +" - "+"Nota:"+ vetor_notas[alunos_cadastrados] +" - "+"Frequência: "+ vetor_frequencia[alunos_cadastrados]);
+	fimPara
+	
+	menu(contador_alunos, vetor_notas, vetor_nome, vetor_matricula, vetor_frequencia,vetor_idade);
+	
+fimProcedimento
+
+//Opção 3
+procedimento alunos_aprovados(inteiro contador_alunos, real vetor_notas[], texto vetor_nome[], texto vetor_matricula[], real vetor_frequencia[],real vetor_idade[])
+	// Declarações
+	inteiro aluno_aprovado, contador_aprovado;
+	// Instruções
+	contador_aprovado=0;
+	escreval(" ");
+	escreval("-------------------------------------------------------------------------");
+	escreval(" ");
+	//quantidade de alunos aprovados
+	para(aluno_aprovado de 0 ate contador_alunos passo 1)faca
+		se((vetor_notas[aluno_aprovado]>=5)e(vetor_frequencia[aluno_aprovado]>=75))entao
+			contador_aprovado=contador_aprovado+1;
+		fimSe
+	fimPara
+	escreval("A quantidade total de alunos aprovados é: "+contador_aprovado);
+	//lista de alunos aprovados
+	para(aluno_aprovado de 0 ate contador_alunos passo 1)faca
+		se((vetor_notas[aluno_aprovado]>=5)e(vetor_frequencia[aluno_aprovado]>=75))entao
+			escreval("Nome do aluno aprovado: "+vetor_nome[aluno_aprovado] +" - "+"Matricula: "+ vetor_matricula[aluno_aprovado] +" - "+"Nota:"+ vetor_notas[aluno_aprovado] +" - "+"Frequência: "+ vetor_frequencia[aluno_aprovado]);
+		fimSe
+	fimPara
+	menu(contador_alunos, vetor_notas, vetor_nome, vetor_matricula, vetor_frequencia,vetor_idade);
+fimProcedimento
+
+//Opção 4
+procedimento alunos_reprovados(inteiro contador_alunos, real vetor_notas[], texto vetor_nome[], texto vetor_matricula[], real vetor_frequencia[],real vetor_idade[])
+	// Declarações
+	inteiro aluno_reprovado,contador_reprovado;
+	// Instruções
+	contador_reprovado=0;
+	escreval(" ");
+	escreval("-------------------------------------------------------------------------");
+	escreval(" ");
+	//quantidade de alunos reprovados
+	para(aluno_reprovado de 0 ate contador_alunos passo 1)faca
+		se((vetor_notas[aluno_reprovado]<5)ou(vetor_frequencia[aluno_reprovado]<75))entao
+			contador_reprovado=contador_reprovado+1;
+		fimSe
+	fimPara
+	escreval("A quantidade total de alunos reprovados é: "+contador_reprovado);
+	//lista de alunos reprovados
+	para(aluno_reprovado de 0 ate contador_alunos passo 1)faca
+		se((vetor_notas[aluno_reprovado]<5)ou(vetor_frequencia[aluno_reprovado]<75))entao
+			escreval("Nome do aluno aprovado: "+vetor_nome[aluno_reprovado] +" - "+"Matricula: "+ vetor_matricula[aluno_reprovado] +" - "+"Nota:"+ vetor_notas[aluno_reprovado] +" - "+"Frequência: "+ vetor_frequencia[aluno_reprovado]);
+		fimSe
+	fimPara
+	menu(contador_alunos, vetor_notas, vetor_nome, vetor_matricula, vetor_frequencia,vetor_idade);
+
+fimProcedimento
+
+//Opção 5
+procedimento Pesquisa_aluno(inteiro contador_alunos, real vetor_notas[], texto vetor_nome[], texto vetor_matricula[], real vetor_frequencia[],real vetor_idade[])
+	// Declarações
+	texto pesquisa,mencao;
+	inteiro pesquisa_aluno, aluno_nao_encontrado;
+	real vetor_mencao[200];
+	// Instruções
+	aluno_nao_encontrado=0;
+	escreval(" ");
+	escreval("-------------------------------------------------------------------------");
+	escreval(" ");
+
+	se(contador_alunos==-1)entao // caso não seja cadastrado nenhum aluno o contador fica como -1 por isso fiz esse "se"
+		escreval(" ");
+		escreval("Não há alunos cadastrados no sistema!");
+		escreval(" ");
+	senao
+		//pesquisa por aluno
+		escreva("Digite o nome do aluno para pesquisa: ");
+		leia(pesquisa);
+		para(pesquisa_aluno de 0 ate contador_alunos passo 1)faca
+			se(comparaTexto(pesquisa,vetor_nome[pesquisa_aluno])==0)entao
+				se((vetor_notas[pesquisa_aluno]>=0)e(vetor_notas[pesquisa_aluno]<=0.9))entao
+					mencao="SR";
+				fimSe
+				se((vetor_notas[pesquisa_aluno]>=1)e(vetor_notas[pesquisa_aluno]<=2.9))entao
+					mencao="II";
+				fimSe
+				se((vetor_notas[pesquisa_aluno]>=3)e(vetor_notas[pesquisa_aluno]<=4.9))entao
+					mencao="MI";
+				fimSe
+				se((vetor_notas[pesquisa_aluno]>=5)e(vetor_notas[pesquisa_aluno]<=6.9))entao
+					mencao="MM";
+				fimSe
+				se((vetor_notas[pesquisa_aluno]>=7)e(vetor_notas[pesquisa_aluno]<=8.9))entao
+					mencao="MS";
+				fimSe
+				se((vetor_notas[pesquisa_aluno]>=9)e(vetor_notas[pesquisa_aluno]<=10))entao
+					mencao="SS";
+				fimSe
+				escreval(" ");
+				escreval("Nome do aluno aprovado: "+vetor_nome[pesquisa_aluno] +" - "+"Matricula: "+ vetor_matricula[pesquisa_aluno] +" - "+"Nota: "+ mencao +" - "+"Frequência: "+ vetor_frequencia[pesquisa_aluno]);
+				escreval(" ");
+			senao
+				aluno_nao_encontrado=aluno_nao_encontrado+1;
+			fimSe
+		fimPara
+		se((aluno_nao_encontrado-1)==contador_alunos)entao
+			escreval("Aluno não encontrado!");
+		fimSe
+	fimSe
+	menu(contador_alunos, vetor_notas, vetor_nome, vetor_matricula, vetor_frequencia, vetor_idade);
+fimProcedimento
+
+//Opção 6
+procedimento relatorio_alunos_cadastrados(inteiro contador_alunos, real vetor_notas[], texto vetor_nome[], texto vetor_matricula[], real vetor_frequencia[], real vetor_idade[])
+	// Declarações
+	
+	inteiro aluno_aprovado, contador_aprovado;
+	real porcentagem_aprovado;
+	inteiro aluno_reprovado,contador_reprovado,contador_reprovado_falta,alunos_cadastrados;
+	inteiro media_n,media_f,media_i,maior_n,menor_n;
+	real media_notas,media_frequencia, media_idade,maior_nota,menor_nota;
+	// Instruções
+	
+	contador_alunos=contador_alunos+1;	//para a quantidade de alunos ficar certa é necessário somar 1
+	contador_aprovado=0;
+	contador_reprovado=0;
+	contador_reprovado_falta=0;
+	media_notas=0;
+	media_frequencia=0;
+	media_idade=0;
+	maior_nota=0;
+	menor_nota=999;
+	escreval(" ");
+	escreval("-------------------------------------------------------------------------");
+	escreval(" ");
+	// Número total de alunos cadastrados
+	escreval("A quantidade de alunos cadastrados é: "+contador_alunos);
+	contador_alunos=contador_alunos-1;	//subtrai 1 por conta do vetor no para, para dar certo
+	//Número de alunos aprovados
+	para(aluno_aprovado de 0 ate contador_alunos passo 1)faca
+		se((vetor_notas[aluno_aprovado]>=5)e(vetor_frequencia[aluno_aprovado]>=75))entao
+			contador_aprovado=contador_aprovado+1;
+		fimSe
+	fimPara
+	escreval("A quantidade total de alunos aprovados é: "+contador_aprovado);
+	//Porcentagem de alunos aprovados
+	contador_alunos=contador_alunos+1;	//para a quantidade de alunos ficar certa é necessário somar 1
+	se(contador_alunos==0)entao
+		escreval("A porcentagem de alunos aprovados é: 0");
+	senao
+		porcentagem_aprovado=(contador_aprovado/contador_alunos)*100;
+		escreval("A porcentagem de alunos aprovados é: "+porcentagem_aprovado+"%");
+	fimSe
+	//Número total de alunos reprovados (por nota e por falta)
+	contador_alunos=contador_alunos-1;	//subtrai 1 por conta do vetor no para, para dar certo
+	para(aluno_reprovado de 0 ate contador_alunos passo 1)faca
+		se((vetor_notas[aluno_reprovado]<5)ou(vetor_frequencia[aluno_reprovado]<75))entao
+			contador_reprovado=contador_reprovado+1;
+		fimSe
+	fimPara
+	escreval("A quantidade total de alunos reprovados é: "+contador_reprovado);
+	//Número de alunos reprovados apenas por falta
+	para(aluno_reprovado de 0 ate contador_alunos passo 1)faca
+		se((vetor_frequencia[aluno_reprovado]<75))entao
+			contador_reprovado_falta=contador_reprovado_falta+1;
+		fimSe
+	fimPara
+	escreval("A quantidade total de alunos reprovados por falta é: "+contador_reprovado_falta);
+	//Nota média dos alunos
+	para(media_n de 0 ate contador_alunos passo 1)faca
+		media_notas=vetor_notas[media_n]+media_notas;
+	fimPara
+	escreval("A media da nota dos alunos é: "+media_notas/(contador_alunos+1));
+	//Frequência média dos alunos
+	para(media_f de 0 ate contador_alunos passo 1)faca
+		media_frequencia=vetor_frequencia[media_f]+media_frequencia;
+	fimPara
+	escreval("A media da frequência dos alunos é: "+media_frequencia/(contador_alunos+1));
+	//Idade média dos alunos
+	para(media_i de 0 ate contador_alunos passo 1)faca
+		media_idade=vetor_idade[media_i]+media_idade;
+	fimPara
+	escreval("A media da idade dos alunos é: "+media_idade/(contador_alunos+1));
+	//Nome do aluno com a maior nota
+	para(maior_n de 0 ate contador_alunos passo 1)faca
+		se(vetor_notas[maior_n]>maior_nota)entao
+			maior_nota=vetor_notas[maior_n];
+		fimSe
+	fimPara
+	para(alunos_cadastrados de 0 ate contador_alunos passo 1)faca
+		se(maior_nota==vetor_notas[alunos_cadastrados])entao
+			escreval("Nome do aluno com a maior nota: "+vetor_nome[alunos_cadastrados]);
+		fimSe
+	fimPara
+	//Nome do aluno com a menor nota
+		para(menor_n de 0 ate contador_alunos passo 1)faca
+		se(vetor_notas[menor_n]<menor_nota)entao
+			menor_nota=vetor_notas[menor_n];
+		fimSe
+	fimPara
+	para(alunos_cadastrados de 0 ate contador_alunos passo 1)faca
+		se(menor_nota==vetor_notas[alunos_cadastrados])entao
+			escreval("Nome do aluno com a menor nota: "+vetor_nome[alunos_cadastrados]);
+		fimSe
+	fimPara
+	
+	menu(contador_alunos, vetor_notas, vetor_nome, vetor_matricula, vetor_frequencia, vetor_idade);
+fimProcedimento
+
+//Opção 7
+procedimento encerrar_programa()
+	// Declarações
+
+	// Instruções
+	escreval(" ");
+	escreval("-------------------------------------------------------------------------");
+	escreval("-------------------------/ Programa Encerrado. /-------------------------");
+	escreval("-------------------------------------------------------------------------");
+fimProcedimento
